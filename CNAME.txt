@@ -1,1 +1,1 @@
-zsh.homes
+www.zsh.homes
