@@ -1,1 +1,1 @@
-zsh.homes
+blog.zsh.homes
