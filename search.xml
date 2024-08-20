@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>hexo+gitblog搭建记录</title>
+      <link href="/2024/08/20/hexo-gitblog%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/"/>
+      <url>/2024/08/20/hexo-gitblog%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="1-git部署绑定域名"><a href="#1-git部署绑定域名" class="headerlink" title="1 - git部署绑定域名"></a>1 - git部署绑定域名</h2><p>转载：<a href="https://jacckx.me/2021/02/28/Hexo_Custom_Domain/">https://jacckx.me/2021/02/28/Hexo_Custom_Domain/</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 运维 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>IEEE488概述</title>
       <link href="/2024/08/19/IEEE488%E6%A6%82%E8%BF%B0/"/>
       <url>/2024/08/19/IEEE488%E6%A6%82%E8%BF%B0/</url>
