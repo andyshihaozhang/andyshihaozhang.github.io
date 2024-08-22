@@ -1,0 +1,13 @@
+---
+title: hexo+gitblog搭建记录
+date: 2024-08-20 10:16:57
+tags: 运维
+---
+
+##  1 - git部署绑定域名
+
+转载：https://jacckx.me/2021/02/28/Hexo_Custom_Domain/
+
+## 2 - butterfly魔改教程
+
+转载：https://www.fomal.cc/posts/eec9786.html
