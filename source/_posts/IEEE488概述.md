@@ -102,7 +102,41 @@ tags: 通信
 
 #### 3.5 - Information transfer
 
-![GPIB_MessageTransmision](IEEE488概述/GPIB_MessageTransmision.png)
+![](IEEE488概述/波形文件.png)
+
+![](IEEE488概述/写操作.png)
+
+```cpp
+// 通信系统初始阶段
+step 1 ： Controller send IFC 
+			初始化GPIB信道，表明自己是Controller（controller in charge）
+// 数据交互阶段
+step 2 ： Controller unassert ATN
+			表示当前数据线上传输的为控制命令
+step 3 ： Controller send command
+			控制器通过发送command来确定总线上的Talker与Listener
+step 4 ： Listener assert NRFD NDAC
+			接收方初始化自己状态，先表示自己未准备好
+step 5 ： Listener unassert NRFD
+			接收方表示自己准备好接受数据
+step 6 ： Controller assert ATN
+			表示当前数据线上传输的为数据信息
+step 7 ： Talker send a Byte message
+			发送方监听到接收方准备完成后，发送一字节的数据，ASCII形式（7bit）由8分DIO线发送
+step 8 ： Talker assert DAV
+			发送放通过DAV表示数据有效可以接受
+step 9 ： Listener unassert NDAC
+			接收方表示数据接受完毕
+step 10 ： Talker unassert DAV
+			发送方取消数据有效信号
+......(重复step 6 ~ step 9)
+// 交互结束阶段
+step 11 ： Talker assert EOI
+			发送方数据发送完毕后出发EOI信号表示数据发送完毕
+			
+```
+
+
 
 ## 4 - GPIB驱动层（NI驱动）
 
