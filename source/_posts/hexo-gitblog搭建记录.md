@@ -46,3 +46,13 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 cnpm install hexo-cli -g
 ```
 
+若出现如下图状态
+
+![image-20240903100028185](hexo-gitblog搭建记录\image-20240903100028185.png)
+
+执行
+
+```shell
+npm install
+```
+
