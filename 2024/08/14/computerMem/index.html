@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>存储系统杂谈 | Andy‘s Blog</title><meta name="author" content="Andy"><meta name="copyright" content="Andy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="一、存储系统总览  二、内存1 - 概念​	内存（主存）为计算机进行活动过程中用来存储活动数据的空间，比如计算的数据，执行的指令等 2 - 内存构成​	内存一般由DRAM芯片构成，DRAM芯片利用栅极电容存储信息，所以本质上存储的是电信号，同时栅极电容具有电容的特性，所以DRAM也存在刷新机制用于维护电信号。 ​	DRAM只是一个存储芯片，那么我们现在常说的内存条又是个什么鬼呢？ ​	一般来说，存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="存储系统杂谈">
+<meta property="og:url" content="http://example.com/2024/08/14/computerMem/index.html">
+<meta property="og:site_name" content="Andy‘s Blog">
+<meta property="og:description" content="一、存储系统总览  二、内存1 - 概念​	内存（主存）为计算机进行活动过程中用来存储活动数据的空间，比如计算的数据，执行的指令等 2 - 内存构成​	内存一般由DRAM芯片构成，DRAM芯片利用栅极电容存储信息，所以本质上存储的是电信号，同时栅极电容具有电容的特性，所以DRAM也存在刷新机制用于维护电信号。 ​	DRAM只是一个存储芯片，那么我们现在常说的内存条又是个什么鬼呢？ ​	一般来说，存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/wallPaper3.png">
+<meta property="article:published_time" content="2024-08-14T08:40:20.000Z">
+<meta property="article:modified_time" content="2024-09-03T00:51:54.775Z">
+<meta property="article:author" content="Andy">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/wallPaper3.png"><link rel="shortcut icon" href="/img/sun.png"><link rel="canonical" href="http://example.com/2024/08/14/computerMem/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '存储系统杂谈',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-03 08:51:54'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css?1"><link rel="stylesheet" href="/css/cursor.css?1"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/wallPaper3.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/transparent_Img.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Andy‘s Blog"><span class="site-name">Andy‘s Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">存储系统杂谈</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-08-14T08:40:20.000Z" title="发表于 2024-08-14 16:40:20">2024-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-03T00:51:54.775Z" title="更新于 2024-09-03 08:51:54">2024-09-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="存储系统杂谈"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一、存储系统总览"><a href="#一、存储系统总览" class="headerlink" title="一、存储系统总览"></a>一、存储系统总览</h2><img src="/2024/08/14/computerMem/08/14/computerMem/computer_memflow.png" class title="存储系统流程图">
+
+<h2 id="二、内存"><a href="#二、内存" class="headerlink" title="二、内存"></a>二、内存</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1 - 概念"></a>1 - 概念</h3><p>​	内存（主存）为计算机进行活动过程中用来存储活动数据的空间，比如计算的数据，执行的指令等</p>
+<h3 id="2-内存构成"><a href="#2-内存构成" class="headerlink" title="2 - 内存构成"></a>2 - 内存构成</h3><p>​	内存一般由DRAM芯片构成，DRAM芯片利用栅极电容存储信息，所以本质上存储的是电信号，同时栅极电容具有电容的特性，所以DRAM也存在刷新机制用于维护电信号。</p>
+<p>​	DRAM只是一个存储芯片，那么我们现在常说的内存条又是个什么鬼呢？</p>
+<p>​	一般来说，存储芯片所能容纳的数据量其实很有限，比如4K * 4bit（16 * 1024bit）数据量，也就是一个芯片可能只是以KB为单位的，而我们常说的内存条通常都是GB为单位，显而易见，内存条是存储芯片的集合，那么我们是怎么将一小个一小个的芯片组装成一整个内存条的呢？</p>
+<p>​	我们简单以8GB的内存条为例，假设内存条的引脚为64个，也就是说内存条可以一次传递64bit的数据，但是一个4K*4bit的芯片一次只能传输4bit的数据，所以我们怎么读出64bit数据？</p>
+<h4 id="2-1-字位扩展"><a href="#2-1-字位扩展" class="headerlink" title="2.1 - 字位扩展"></a>2.1 - 字位扩展</h4><p>​	显然，可以将16个存储芯片并排放在一起，16个芯片每个里面读出4bit，那么就读出了64bit，这种微观上读取多个芯片的位数从而达到宏观上的多位数据我们称之为 — <strong>位扩展</strong>。</p>
+<p>​	ok，现在我将16个芯片并排放一起了，那么现在这16个芯片的容量也才16*4K*4bit &#x3D; 32KB的容量，离我们8GB还差得远呢！我们有没有其他手段能够扩大容量呢？</p>
+<p>​	有！除了增加我们位数，我们还可以从另一个角度开始。</p>
+<p>​	8GB的内存条，我们一次读出来64bit，一共可以读1G次，也就是2^30次，也就是说我们以16个芯片为一组，那么拥有2^30组，所以我们可以考虑增加组数！我们将一次性读出来的64bit称之为字长，所以我们这种扩展方式称之为 — <strong>字扩展</strong>。</p>
+<p>​	而这两种协同扩展空间构建8GB空间的方法就称为 — <strong>字位同时扩展</strong>。</p>
+<p>​	补充思考一下存在的一个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">现在的情景是：</span><br><span class="line">	我们需要将 4K * 4bit的存储芯片，构造成 1G * 64bit的内存条，进行位扩展后我们构造成了 4K * 64bit的存储组，我们说需要再进行字扩展才能构造1G * 64bit的内存条，现在我们进行字扩展，那么就需要1G / 4K = 256K个组，请问：硬件是如何确定我们读的是那个组呢？</span><br><span class="line">    回答： 显然我们内存条数据线是64位，地址线为30位（表示有多少个组，显然有1G个，对应的就是30bit）。而我们构建出4K * 64bit有256K个，表示选择那个组需要18位，芯片内有4K个4bit，每个芯片中选中哪4个bit需要12bit，一共刚好30bit</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更详细的物理构成参考：<a target="_blank" rel="noopener" href="https://lzz5235.github.io/2015/04/21/memory.html">https://lzz5235.github.io/2015/04/21/memory.html</a></p>
+</blockquote>
+<h4 id="2-2-内存刷新机制"><a href="#2-2-内存刷新机制" class="headerlink" title="2.2 - 内存刷新机制"></a>2.2 - 内存刷新机制</h4><p>​	经过上述的方案我们解决了如何用这一个个小的存储芯片构造成我们生活中用的存储条的问题，但是还存在一个问题：反过来想一下，我们使用的存储芯片是DRAM，为栅极电容存储方式，这种方式我们之前提到过是一种破坏性读出的存储方式，同时电容也是易失的，所以我们还要考虑维护数据，也就是我们常说的DRAM刷新机制保证原来的数据仍然存在。</p>
+<p>​	那么通常有几种内存刷新机制如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意： 刷新是以行为单位</span></span><br><span class="line">集中刷新：专门腾出一块时间刷新所有行</span><br><span class="line">分散刷新：每行读完立马就刷新</span><br><span class="line">异步刷新：保证电容消散的时间中能够将每行都刷新完毕</span><br></pre></td></tr></table></figure>
+
+<p>​	ok，拥有了刷新机制，我们就保证了数据在内存中是时刻有效存在的，现在可以放心去操作了！但是麻烦还是存在！我们CPU的工作速度是相当之快的，但是内存条的工作速度却是有限的，现在你还搞出这个刷新，这下更慢了，难道我的CPU每次存取完下次来敲门的时候还得等你穿裤子吗？？？</p>
+<h4 id="2-3-多模块存储器"><a href="#2-3-多模块存储器" class="headerlink" title="2.3 - 多模块存储器"></a>2.3 - 多模块存储器</h4><p>​	根据上面的描述，我们总结一下当前的场景：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">现在一张8G（1G*64bit）的内存条，我们读取64bit后假设需要进行刷新恢复电容，我们将内存条从读出数据到刷新完数据进行下一次读取成为内存条的工作周期，1s中内存条工作多少次成为内存条的主频，同理CPU也有主频，随便参考一下市面上的cpu和内存条我们可以知道：</span><br><span class="line">酷睿i5 12490f的主频为 - 4.6GHz</span><br><span class="line">阿斯嘉特8GB内存条主频为 - 3200MHz（不考虑其他因素如DDR4）</span><br><span class="line">可以看出CPU的工作频率是高于内存条的工作频率，考虑极端情况CPU多次进行访存，那么这时候CPU是需要等待内存条存取数据并且进行刷新数据后再进行下一次读取操作，这时候就大大拖了CPU的工作效率。</span><br></pre></td></tr></table></figure>
+
+<p>​	那么我们有没有办法解决呢？</p>
+<p>​	那必须是有的！</p>
+<p>​	我们可以考虑再多加一张内存条，在这个内存条进行刷新的过程中，我们可以访问另一张内存条，听起来或许没有什么技术含量，但是这其中也有一些小问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">我们CPU进行地址访问的时候，可不管你是第几个内存条，我只管给出地址，我们怎么处理才能分散我们的访问次序呢？</span><br><span class="line">   比如：我现在想要访问的次序是0x0001、0x0002、0x0003、0x0004，请问怎么处理？</span><br><span class="line">   学过数学的很容易知道，我们将数字对2取余就可以将一堆数字交替分散称两堆，同理我们将地址对2取余就可以映射到两个内存条中，换而言之，我们将地址交叉编址完成交替访问，从而将多个存储器并行工作。</span><br></pre></td></tr></table></figure>
+
+<p>​	我们将上述方案的方式称为 — <strong>低位交叉编址多体并行存储器</strong>。</p>
+<p>​	同时，提一嘴还存在一下两种模式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">单体多字：通过扩大字长扩大吞吐量</span><br><span class="line">高位交叉编址：通过高位编址从而完成存储体的并行访问</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此处可进一步参考：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1150147">https://developer.aliyun.com/article/1150147</a></p>
+</blockquote>
+<h3 id="3-内存地址"><a href="#3-内存地址" class="headerlink" title="3 - 内存地址"></a>3 - 内存地址</h3><p>​	由上可知，内存存储的是电信号，本质上就是正负信号（0&#x2F;1），对应的就是bit位。在计算机系统中，通常使用字节作为单位用来存储8bit（1B &#x3D; 8b）的数据，当我们对每个字节进行编址就得到了整个内存的地址大小。内存地址也即<strong>物理地址</strong>，好比房间和房间号。</p>
+<p>​	研究一个问题：假设现在只有一个4GB的内存条，也就是物理内存只能访问到0x0000 ~0xFFFF地址大小，但是如果我的程序很大，比如占用了8个G（模型渲染、机器学习等），但是物理空间只有4GB大小，也就是说我8G的空间，只有4G的门牌号，剩余4G的空间系统里都查不到，这肯定是不合适的，但是我们可以很容易想到一个方法 — 拓展内存大小：</p>
+<p>​	我们给我们的主机加上内存条，拓展到8G大小这样不就行了吗？</p>
+<p>​	但是有两个缺点：1、贵</p>
+<p>​				       2、缓兵之计，要是下一次10G怎么办？</p>
+<p>​	有的人又会问，硬盘不贵，同等空间硬盘便宜多了，但是硬盘便宜的代价就是硬盘很慢，所以cpu不会直接同硬盘进行数据交互，cpu宝贵的资源超快的速度不可能每次都等待硬盘进行数据传输，所以我们需要的是一个机制—一个从根本上解决程序地址和物理地址不匹配的机制，那既然程序地址无法同物理地址一一对应，那么我们就可以将耦合解开来，采用别的方式完成程序地址到物理地址的转换，此处转换也即映射，此处程序地址就是我们要谈论的<strong>虚拟地址</strong>。</p>
+<h3 id="4-内存数据获取方式"><a href="#4-内存数据获取方式" class="headerlink" title="4 - 内存数据获取方式"></a>4 - 内存数据获取方式</h3><p>​	既然有了存放数据的空间，也知道这些空间的编号，那么我们获取数据的方式无非就是按照编号找到对应的空间，然后取出对应的数据。而编号就是我们的物理地址，找数据的过程就是对应选片读取的过程。</p>
+<p>​	如果现在编址空间为24bit表示大小，也就是0x000000~0xFFFFFF大小，如果我们将内存看作为一个矩阵空间（实际DRAM就是），每一行使用12bit容纳的空间，也就是每一行存储2^12（4096）B的数据，那么剩余12bit就成为了行号，此时我们就可称这24bit中，高12bit为行号，低12bit为列号，也称前者为行地址，后者为列地址。</p>
+<p>​	同时为了节省资源，现代计算机通常使用行列地址复用技术减少地址线的根数。那么此处实际上我们只需要12跟地址线就足以，当我们想要获取某一个单元的数据的时候，我们通常会选择先传送12bit的行地址进行行选通，再传送12bit列地址进行列选通从而完成寻址，随后将数据读出通过数据线传送到CPU中。</p>
+<p>​	</p>
+<h2 id="三、虚拟内存"><a href="#三、虚拟内存" class="headerlink" title="三、虚拟内存"></a>三、虚拟内存</h2><h3 id="1-引言"><a href="#1-引言" class="headerlink" title="1 - 引言"></a>1 - 引言</h3><p>​	我们知道，程序员写代码的时候不需要关心物理地址，访问都是通过指针或者索引或者其他形式去访问，既然底层是通过地址去获取存储单元中的数据，那么这一环节是如何转换的呢？</p>
+<p>​	以c为例，我们c代码是高级语言，代码执行过程可以有以下的执行过程：</p>
+<img src="/2024/08/14/computerMem/08/14/computerMem/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" class title="程序执行过程">
+
+<p>​	</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;...&gt;</span>  <span class="comment">// 预处理阶段处理</span></span></span><br><span class="line"></span><br><span class="line">代码段  <span class="comment">// 编译 -》 汇编 -》 链接 形成基于整个程序空间的逻辑地址</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>​	ok，现在我们经过了预处理、编译、汇编、链接从而形成了可执行程序，并且整个可执行程序中的数据或者指令也都被我们进行了编址，也就是拥有了基于程序这个空间的地址，那么为什么要进行装入操作呢？直接将可执行程序上CPU运行不就完事了吗？</p>
+<p>​	其实，在以前的单道处理系统中是这样的，但是考虑效率现在的多道批处理系统中并非如此，现在的cpu是属于并发（甚至并行）执行多个程序，也就是说多个程序可能都要存储在内存中，那么小程序还行，如果是大程序怎么在有限的内存中进行操作呢？</p>
+<h3 id="2-虚拟地址"><a href="#2-虚拟地址" class="headerlink" title="2 - 虚拟地址"></a>2 - 虚拟地址</h3><p>​	上文说到我们需要采用一种机制，解决物理地址有限的问题，我们称之为虚拟地址（逻辑地址）。物理地址受限于物理引脚的个数，物理引脚的个数确定了物理上能访问的空间大小，而虚拟地址则受限于os系统的架构，例如32位x86架构能够访问的空间大小和64位的x64架构能访问的空间大小则完全不同。</p>
+<p>​	以32位x86架构的系统为例，我们虚拟地址以32bit进行编制，那么我们能够访问的空间的大小就是0x00000000 ~0xFFFFFFFF地址范围，我们说为什么受限呢？可以想想，我们现在写好了程序，编译、汇编、链接这些操作都是在哪里进行处理的？ 那必须是os中处理，所以我们被人家改造成了人家的位数，合情合理。</p>
+<p>​	ok，现在我们的访问地址变大了，在程序的角度能访问的所有的房间都有门牌号了，但是实际的存储范围其实就那么大，我们上文中提到的解决方式是将虚拟地址与逻辑地址之间一一对应的关系改造为虚拟地址到物理地址之间映射的关系从而达到扩大程序地址空间的目的，那么接下来详细谈谈这个映射机制，从<strong>虚拟内存</strong>开始说起。</p>
+<h3 id="3-虚拟内存"><a href="#3-虚拟内存" class="headerlink" title="3 - 虚拟内存"></a>3 - 虚拟内存</h3><p>​	我们说，物理地址空间能访问的空间大小称之为物理内存。那么逻辑地址（虚拟地址）能访问的空间大小则称之为虚拟内存。</p>
+<p>​	接下来我们考虑一个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">我们之前谈到数据是以二进制存储在内存中，也就是数据是bit位；同时我们谈到内存中对数据编址是通过字节的形式，也就是B字节；</span><br><span class="line">​	请问：我们程序运行过程中从内存中获取数据是以bit还是B为单位获取？</span><br><span class="line">​	答案：我们地址是按照B为单位进行编址，自然我们也是以B位单位获取数据</span><br></pre></td></tr></table></figure>
+
+<p>​	再考虑一个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">假设现在有以下的情景：</span><br><span class="line">	逻辑地址空间32bit，物理地址空间24bit；</span><br><span class="line">​	请问：我们需要将32bit的空间大小映射到24bit空间中，应该怎么做？</span><br><span class="line">​	答案：使用一个表，记录下来逻辑地址到物理地址之间的对应关系，拿到逻辑地址的时候查表获取对应的物理地址从而获取对应的数据。</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-页表"><a href="#3-1-页表" class="headerlink" title="3.1 - 页表"></a>3.1 - 页表</h4><p>​	用于记录逻辑地址到物理地址之间的映射关系，页表存放在内存中。</p>
+<p>​	思考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">还是以上的情景：</span><br><span class="line">	逻辑地址空间32bit，物理地址空间24bit；</span><br><span class="line">​	请问：现在有一个int类型的数据，请问怎么访问获取这个int类型的数据呢（不考虑大端小端等，只说明大致过程）？</span><br><span class="line">​	答案：int类型的数据占用4个字节，也就是要获取连续的4个地址中保存的bit数据，所以我们需要根据将连续的4个逻辑地址通过查找页表来获取对应4个地址的物理地址，从而在物理内存中获取真实的物理数据。</span><br><span class="line"></span><br><span class="line">	我们可以发现，再此过程中进行了4次地址转换，获得了4个物理地址，从而获取到了对应的4个B的数据。但是这个过程中存在一个问题，就是页表中也存在4条逻辑地址到物理地址的映射记录，ok，可能4条映射表现出来的问题不够明显，现在考虑我们想要获取如果是1MB的数据，那么映射记录就变成了1M个；如果是1GB数据，那么映射记录就变成了1G个；同时可以计算：</span><br><span class="line">	逻辑地址32bit=4B，物理地址24bit=3B；</span><br><span class="line">	那么</span><br><span class="line">        1M个记录 = 1M*7B = 7MB；</span><br><span class="line">        1G个记录 = 1G*7B = 7GB；</span><br><span class="line">        可以看出页表占用的内存大小是相当大的。</span><br><span class="line">	所以我们需要规避这种空间损耗，那么就必须增大映射的单位大小，换句话说就是将原来以B为单位映射改为以一堆B为单位进行映射，所以页表是以页为单位进行映射的。</span><br><span class="line">	</span><br><span class="line">	现在我们重新以页的方式进行映射，假设页的大小为1KB，那么此时1MB个数据就缩减为了1K个记录！</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-段表"><a href="#3-2-段表" class="headerlink" title="3.2 - 段表"></a>3.2 - 段表</h4><p>​	用于记录逻辑地址到物理地址之间的映射关系，段表存放在内存中。</p>
+<p>​	同上，我们还存在一种映射方式是以段为单位进行映射，也就是表中存储的是段的逻辑地址到物理地址之间的映射关系，我们将在下一小节中说明这些差别。</p>
+<h4 id="3-3-页、段、页框"><a href="#3-3-页、段、页框" class="headerlink" title="3.3 - 页、段、页框"></a>3.3 - 页、段、页框</h4><p>​	上文分析，为了避免不必要的浪费，我们引入了<strong>页</strong>这个概念，用来将一个B之间的映射转换为一堆B之间的映射；</p>
+<p>​	那么<strong>段</strong>存在的意义就是将一堆B之间的映射进一步提升为一个模块之间的映射。</p>
+<p>​	例如，现在有两个函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	那么在os层面，这两个模块照样会经过编译、汇编、链接成为二进制机器语言，那么为了保证函数的完整性，我们提出将func1作为一个段，将func2作为一个段。但是我们知道函数编译出来的产物通常是指令，而不是每个函数的指令长度都是一样的，也就是段的长度受实际代码复杂度等因素影响，所以在段表中我们是需要记录段的长度。</p>
+<p>​	在虚拟内存层面我们交换的单位称之为<strong>页</strong>或者<strong>段</strong>，那么物理内存层面我们与之对应的单位也有名字，成为<strong>页框</strong>。</p>
+<h4 id="3-4-虚拟地址（以页为例）"><a href="#3-4-虚拟地址（以页为例）" class="headerlink" title="3.4 - 虚拟地址（以页为例）"></a>3.4 - 虚拟地址（以页为例）</h4><p>​	在引入了页这个概念后，我们的逻辑（虚拟）地址就可以划分为以下的形式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">逻辑地址 = 逻辑地址剩余位数 + 页占用的位数</span><br><span class="line"></span><br><span class="line">同时，我们进一步将名称规范一下，逻辑地址剩余位数表示的其实就是对页进行编址，所以称之为页号，表示是第几个页；</span><br><span class="line">也占用的位数其实就是一个页中的第几个字节（因为毕竟总的来说是按照字节编址的），所以可以成为块内偏移；那么我们可以进一步写为:</span><br><span class="line"></span><br><span class="line">逻辑地址 = 页号 + 块内偏移地址</span><br></pre></td></tr></table></figure>
+
+<p>​	思考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">依旧是上述的情景：</span><br><span class="line">	逻辑地址32bit，物理地址24bit，页的大小为1KB</span><br><span class="line">	逻辑地址 = 22bit页号 + 10bit页内偏移地址</span><br><span class="line">按照这个逻辑，我们需要记录22bit也就是4M个页的映射记录在页表中，也就是页表的大小为：</span><br><span class="line">	4M * （22 +14）bit = 4M * 36bit = 18MB</span><br><span class="line">这是个不小的数字，同时伴随着地址空间的增大，这个数字还会增大，如果使用单级页表需要耗费巨大的连续空间，os对于这种空间的管理需要一定的消耗，而且考虑到并不是所有页都会被使用，所以还会造成大量的空间浪费。</span><br><span class="line">	因此引入了多级页表的机制用于减少损耗，提高效率。假设现在使用的是两级页表，那么逻辑地址就可变成：</span><br><span class="line">	逻辑地址 = 11bit一级页号 + 11bit二级页号 + 10bit块内（页内）偏移</span><br></pre></td></tr></table></figure>
+
+<p>​	ok，上文提到页表是存储在内存中的，同时我们的页号需要在页表中进行查找，那么我们怎么找到页表呢？</p>
+<p>答案是–<strong>页表始址寄存器</strong></p>
+<p>​	页表始址寄存器会记录页表在内存中的起始地址，从而找到页表。页表始址寄存器中的值需要程序上cpu处理初始化上下文环境由进程PCB中获得初始化寄存器中的值。</p>
+<p>​	所以我们具体查找流程如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单级页表</span></span><br><span class="line">step1： 获得逻辑地址</span><br><span class="line">step2： 根据逻辑地址获得页号</span><br><span class="line">step3： 根据页号和页表始址寄存器中页表起始地址去内存查找页表</span><br><span class="line">step4： 根据页表中的记录获取对应的物理页框号</span><br><span class="line">step5： 根据物理页框号找到内存中对应的页</span><br><span class="line">step6： 根据页内偏移地址找到页中指定位置的字节</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多级页表（二级为例）</span></span><br><span class="line">step1： 获得逻辑地址</span><br><span class="line">step2： 根据逻辑地址获得页号</span><br><span class="line">step3： 根据一级页号和页表始址寄存器中页表起始地址去匹配获得二级页表地址</span><br><span class="line">step4： 根据二级页号在二级页表中匹配真正记录页号到页框号映射的页表</span><br><span class="line">step5： 根据页表中的记录获取对应的物理页框号</span><br><span class="line">step6： 根据物理页框号找到内存中对应的页</span><br><span class="line">step7： 根据页内偏移地址找到页中指定位置的字节</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：页表中并不需要逐个比对，由于顺序一致，所以</span></span><br><span class="line">页表项地址 = 页表基址 + 页表项大小 × 页号</span><br></pre></td></tr></table></figure>
+
+<p>​	ok，那现在我们可以从上述流程发现（单级页表为例），我们地址转换一共进行了两次访存（访问内存）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">第一次：去内存查找页表获得物理地址</span><br><span class="line">第二次：去内存获取数据</span><br></pre></td></tr></table></figure>
+
+<p>​	同时我们知道，cpu和内存的效率差距很大，所以每一次访存都是一次很大的损耗，那么有没有办法能够提高效率呢？</p>
+<p>​	答案肯定是有的，现在计算机系统集成了一套机制–TLB机制，也称之为快表，相对应的就把内存中的页表称之为慢表。</p>
+<h4 id="3-5-局部性原理"><a href="#3-5-局部性原理" class="headerlink" title="3.5 - 局部性原理"></a>3.5 - 局部性原理</h4><p>​	谈论快表之前，谈论一下在计算机设计中广泛用到（包括下文的cache系统）的局部性原理；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">时间局部性（Temporal Locality）:</span><br><span class="line"></span><br><span class="line">时间局部性指的是程序在某一时刻访问了某个存储位置后，短时间内可能会再次访问该位置。例如，循环中的变量或频繁使用的子程序都有很高的时间局部性。</span><br><span class="line">例子: 在一个循环中，多次访问相同的变量或数组元素。每次循环迭代时，程序都会访问同一个存储位置。</span><br><span class="line"></span><br><span class="line">空间局部性（Spatial Locality）:</span><br><span class="line"></span><br><span class="line">空间局部性指的是程序在访问某个存储位置时，它附近的存储位置在不久的将来也可能会被访问。这意味着，如果一个存储位置被访问了，存储器中相邻的位置很可能也会被访问。</span><br><span class="line">例子: 在访问数组中的一个元素后，程序很可能会访问相邻的元素。</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-6-快表（TLB）"><a href="#3-6-快表（TLB）" class="headerlink" title="3.6 - 快表（TLB）"></a>3.6 - 快表（TLB）</h4><p>​	快表其实本质上是一个页表的缓存，采用的是相联存储器（硬件），集成在CPU中，速度很快。映入快表后，查找流程就转变为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单级页表</span></span><br><span class="line">step1： 获得逻辑地址</span><br><span class="line">step2： 根据逻辑地址获得页号</span><br><span class="line">step3： 根据页号查找快表，若查找到对应物理页框号直接跳转step5</span><br><span class="line">step4： 根据页号和页表始址寄存器中页表起始地址去内存查找页表</span><br><span class="line">step5： 根据页表中的记录获取对应的物理页框号</span><br><span class="line">step6： 根据物理页框号找到内存中对应的页</span><br><span class="line">step7： 根据页内偏移地址找到页中指定位置的字节</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-7-小结"><a href="#3-7-小结" class="headerlink" title="3.7 - 小结"></a>3.7 - 小结</h4><p>​	程序编译为可执行程序(二进制文件—ELF文件)；</p>
+<p>​	CPU调度进程上处理机运行，同时从PCB中获取信息初始化上下文（包括页表始址寄存器等);</p>
+<p>​	取指执行阶段，访存获取指令；</p>
+<p>​	查找快表；</p>
+<p>​	查找页表；</p>
+<p>​	访问内存；</p>
+<p><strong>注意：</strong>这其中还包括查找不命中的情况，并非如此简单顺利，后续有时间再补充！</p>
+<p>​	至此，这一部分就完结了！</p>
+<img src="/2024/08/14/computerMem/08/14/computerMem/%E9%80%BB%E8%BE%91%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB.png" class title="逻辑地址映射关系">
+
+<h2 id="四、cache缓存"><a href="#四、cache缓存" class="headerlink" title="四、cache缓存"></a>四、cache缓存</h2><h3 id="1-引言-1"><a href="#1-引言-1" class="headerlink" title="1 - 引言"></a>1 - 引言</h3><p>​	我们说物理内存是采用DRAM（动态随机存储器）构成，与CPU之间仍有效率差距，为了提高效率，同时践行局部性原理，引入内存的缓存机制-cache机制。</p>
+<p>​	cache采用SRAM（静态随机存储器）构成，比DRAM更快（同时也更贵）。</p>
+<p>​	cache作为内存的缓存，会保存部分内存的数据为了保证更快的访问，那么既然是保存部分数据，自然就涉及到以下的问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 数据以什么形式保存在cache中</span><br><span class="line">2. 数据调入的方法</span><br><span class="line">3. 如何保证cache和主存数据的一致性</span><br><span class="line">4. 效率问题</span><br></pre></td></tr></table></figure>
+
+<p>​	下面将会对这些问题一一解答。</p>
+<p>​	同时上述的虚拟内存、逻辑地址体系完成了逻辑地址到物理地址的转换，现在我们终于拥有了物理地址，开始访问存储器……</p>
+<h3 id="2-数据以什么形式保存在cache中"><a href="#2-数据以什么形式保存在cache中" class="headerlink" title="2 - 数据以什么形式保存在cache中"></a>2 - 数据以什么形式保存在cache中</h3><p>​	既然作为内存的副本（缓存），那首先必要的就肯定是<strong>内存中的数据</strong>。</p>
+<p>​	那是不是只存储数据就ok了呢，我们从前往后推理一下即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">假设现在cache中只有内存中的数据：</span><br><span class="line">	CPU现在访问的地址为0xfffff1，同时我们假设主存中该地址对应的数据已经把副本放在了cache中，请问CPU去缓存中该如何找到想要的数据呢？</span><br><span class="line">	你也许懂了，哦~原来我访问存储器一直都是按照内存地址访问的，现在访问cache并没有对应的物理地址，所以我们得重新加上物理地址，但是cache既然只保存一部分内存中的数据，我难道得重新给cache进行编址吗？</span><br></pre></td></tr></table></figure>
+
+<p>​	显然，上述的推理是合理的。</p>
+<p>​	但是，没有必要！因为我们cache是SRAM存储单元构建，该单元的存储速度很快并且存储的数据量也没有内存中那么多，所以没有必要将访问内存的地址线访问存储空间不大的cache，同时减少了资源的浪费。</p>
+<p>​	cache采用的是另一套匹配逻辑 — <strong>标签</strong>。</p>
+<p>​	同上述虚拟地址与物理地址之间映射的逻辑，我们cache与主存之间的数据交换仍然采用的是一堆字节之间的交换，在主存中我们称为数据块，在cache中我们称为cache行。</p>
+<p>​	我们将一个主存块挪到cache行中，需要对这个cache行进行标记，表示对应的是哪一个主存块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">采用逻辑地址访问cache，由于cache行保存的是主存块的副本，所以caache行内的地址等于主存块中的地址。剩下的就是保存主存块到cache行中的映射关系</span><br><span class="line">	直接映射：</span><br><span class="line">	全相联映射：</span><br><span class="line">	组相联映射：</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-数据调入的方法"><a href="#3-数据调入的方法" class="headerlink" title="3 - 数据调入的方法"></a>3 - 数据调入的方法</h3><h3 id="4-如何保证cache和主存数据的一致性"><a href="#4-如何保证cache和主存数据的一致性" class="headerlink" title="4 - 如何保证cache和主存数据的一致性"></a>4 - 如何保证cache和主存数据的一致性</h3><h3 id="5-效率问题"><a href="#5-效率问题" class="headerlink" title="5 - 效率问题"></a>5 - 效率问题</h3><h2 id="五、磁盘"><a href="#五、磁盘" class="headerlink" title="五、磁盘"></a>五、磁盘</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Andy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/08/14/computerMem/">http://example.com/2024/08/14/computerMem/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Andy‘s Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/img/wallPaper3.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/08/19/IEEE488%E6%A6%82%E8%BF%B0/" title="IEEE488概述"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">IEEE488概述</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/wallPaper3.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Andy</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/andyshihaozhang" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:andyshihaozhang@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">一、存储系统总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%85%E5%AD%98"><span class="toc-number">2.</span> <span class="toc-text">二、内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">1 - 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%86%85%E5%AD%98%E6%9E%84%E6%88%90"><span class="toc-number">2.2.</span> <span class="toc-text">2 - 内存构成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%AD%97%E4%BD%8D%E6%89%A9%E5%B1%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 - 字位扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%86%85%E5%AD%98%E5%88%B7%E6%96%B0%E6%9C%BA%E5%88%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2 - 内存刷新机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E5%A4%9A%E6%A8%A1%E5%9D%97%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.3 - 多模块存储器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80"><span class="toc-number">2.3.</span> <span class="toc-text">3 - 内存地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%86%85%E5%AD%98%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96%E6%96%B9%E5%BC%8F"><span class="toc-number">2.4.</span> <span class="toc-text">4 - 内存数据获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">3.</span> <span class="toc-text">三、虚拟内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-number">3.1.</span> <span class="toc-text">1 - 引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80"><span class="toc-number">3.2.</span> <span class="toc-text">2 - 虚拟地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">3.3.</span> <span class="toc-text">3 - 虚拟内存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E9%A1%B5%E8%A1%A8"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.1 - 页表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E6%AE%B5%E8%A1%A8"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.2 - 段表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E9%A1%B5%E3%80%81%E6%AE%B5%E3%80%81%E9%A1%B5%E6%A1%86"><span class="toc-number">3.3.3.</span> <span class="toc-text">3.3 - 页、段、页框</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%EF%BC%88%E4%BB%A5%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="toc-number">3.3.4.</span> <span class="toc-text">3.4 - 虚拟地址（以页为例）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">3.3.5.</span> <span class="toc-text">3.5 - 局部性原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-%E5%BF%AB%E8%A1%A8%EF%BC%88TLB%EF%BC%89"><span class="toc-number">3.3.6.</span> <span class="toc-text">3.6 - 快表（TLB）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-%E5%B0%8F%E7%BB%93"><span class="toc-number">3.3.7.</span> <span class="toc-text">3.7 - 小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81cache%E7%BC%93%E5%AD%98"><span class="toc-number">4.</span> <span class="toc-text">四、cache缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80-1"><span class="toc-number">4.1.</span> <span class="toc-text">1 - 引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E4%BB%A5%E4%BB%80%E4%B9%88%E5%BD%A2%E5%BC%8F%E4%BF%9D%E5%AD%98%E5%9C%A8cache%E4%B8%AD"><span class="toc-number">4.2.</span> <span class="toc-text">2 - 数据以什么形式保存在cache中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E8%B0%83%E5%85%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">4.3.</span> <span class="toc-text">3 - 数据调入的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81cache%E5%92%8C%E4%B8%BB%E5%AD%98%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">4.4.</span> <span class="toc-text">4 - 如何保证cache和主存数据的一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%95%88%E7%8E%87%E9%97%AE%E9%A2%98"><span class="toc-number">4.5.</span> <span class="toc-text">5 - 效率问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%A3%81%E7%9B%98"><span class="toc-number">5.</span> <span class="toc-text">五、磁盘</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/09/03/hello-world/" title="Hello World">Hello World</a><time datetime="2024-09-03T00:51:54.785Z" title="发表于 2024-09-03 08:51:54">2024-09-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/20/hexo-gitblog%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" title="hexo+gitblog搭建记录">hexo+gitblog搭建记录</a><time datetime="2024-08-20T02:16:57.000Z" title="发表于 2024-08-20 10:16:57">2024-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/19/IEEE488%E6%A6%82%E8%BF%B0/" title="IEEE488概述">IEEE488概述</a><time datetime="2024-08-19T09:46:46.000Z" title="发表于 2024-08-19 17:46:46">2024-08-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/14/computerMem/" title="存储系统杂谈">存储系统杂谈</a><time datetime="2024-08-14T08:40:20.000Z" title="发表于 2024-08-14 16:40:20">2024-08-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By Andy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script><script>(() => {
+  const disqus_config = function () {
+    this.page.url = 'http://example.com/2024/08/14/computerMem/'
+    this.page.identifier = '/2024/08/14/computerMem/'
+    this.page.title = '存储系统杂谈'
+  }
+
+  const disqusReset = () => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  btf.addGlobalFn('themeChange', disqusReset, 'disqus')
+
+  const loadDisqus = () =>{
+    if (window.DISQUS) disqusReset()
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if ('Valine' === 'Disqus' || !true) {
+    if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      GLOBAL_CONFIG_SITE.isPost && getCount()
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><script defer src="/js/cursor.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="好好,学习,天天,向上" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
